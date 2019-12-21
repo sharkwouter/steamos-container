@@ -1,4 +1,4 @@
-from ubuntu:latest
+from debian:stable
 
 ENV NAME SteamOS
 ENV RELEASE brewmaster

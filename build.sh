@@ -3,7 +3,7 @@ RELEASE="${1}"
 BASE="${PWD}/${2}"
 CHROOTPATH="${PWD}/chroot"
 SCRIPT="${PWD}/${RELEASE}"
-OUTPUT="${PWD}/${3}.tar.gz"
+OUTPUT="${PWD}/${3}/${RELEASE}.tar.gz"
 
 if [ ! -d ${BASE} ]; then
 	echo "Error: ${BASE} directory not found, run gen.sh first"
@@ -43,5 +43,5 @@ if [ -f ${base_exclude} ]; then
 	done
 fi
 
-fakechroot debootstrap --variant=fakechroot --components=${components} --resolve-deps ${includes} ${excludes} --no-check-gpg ${RELEASE} ${CHROOTPATH} file://${BASE} ${SCRIPT} && \
-tar -C ${CHROOTPATH} -c . -f ${OUTPUT}
+debootstrap --foreign --components=${components} --resolve-deps ${includes} ${excludes} --no-check-gpg ${RELEASE} ${CHROOTPATH} file://${BASE} ${SCRIPT} && \
+tar --exclude='dev/*' -cvf ${OUTPUT} -C ${CHROOTPATH} .
